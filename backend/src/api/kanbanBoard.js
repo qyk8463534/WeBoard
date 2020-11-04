@@ -106,11 +106,10 @@ const router = express.Router();
   */
   router.post(
     "/kanban/:kanbanID/board/:_id/card",
-
     passport.authenticate("jwt", {session: false}),
     async (req, res) => {
       try {
-        const {cardName, highestaAcademicLevel,phoneNumber, emailAddress} = req.body;
+        const {cardName, highestaAcademicLevel,phoneNumber, emailAddress,comments} = req.body;
         const {kanbanID, _id} = req.params;
   
         const kanban = (await BoardModel.findOne({
@@ -128,7 +127,7 @@ const router = express.Router();
           highestaAcademicLevel:highestaAcademicLevel,
           phoneNumber: phoneNumber,
           emailAddress: emailAddress,
-          comments: []
+          comments: comments
         };
   
         const CardDoc = new CardModel(card);
@@ -155,10 +154,10 @@ const router = express.Router();
   router.put(
     "/kanban/:kanbanID/board/:_id/card/:cardID",
     
-  passport.authenticate("jwt", {session: false}),
+    passport.authenticate("jwt", {session: false}),
     async (req, res) => {
       try {
-        const {cardName, highestaAcademicLevel,phoneNumber, emailAddress} = req.body;
+        const {cardName, highestaAcademicLevel,phoneNumber, emailAddress,comments} = req.body;
         const {kanbanID, _id, cardID} = req.params;
   
         const kanban = (await BoardModel.findOne({
@@ -179,6 +178,7 @@ const router = express.Router();
               highestaAcademicLevel:highestaAcademicLevel,
               phoneNumber: phoneNumber,
               emailAddress: emailAddress,
+              comments: comments
             }
           },
         );

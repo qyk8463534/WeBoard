@@ -43,7 +43,7 @@ router.post("/user/accessToken", async (req, res) => {
 
     jwt.sign(
       {
-        email: email,
+        //email: email,
         id: userDoc._id,
       },
       jwtSecret,
@@ -88,7 +88,7 @@ router.post("/user", async (req, res) => {
 
     jwt.sign(
       {
-        email: email,
+        //email: email,
         id: userDoc._id,
       },
       jwtSecret,
@@ -128,38 +128,34 @@ router.post("/user", async (req, res) => {
  */
 router.put(
   "/user/self/accessToken",
-  passport.authenticate("jwt", { session: false }),
+  //passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { id, email, exp } = req.user;
-    if (exp && exp * 1000 - Date.now() < 5 * 60000) {
-      jwt.sign(
-        {
-          email: email,
-          id: id,
-        },
-        jwtSecret,
-        jwtAccessTime,
-        (error, accessToken) => {
-          if (error) {
-            res.sendStatus(500);
-          } else {
-            UserModel.updateOne(
-              { _id: id },
-              { accessToken: accessToken },
-              (err) => {
-                if (err) {
-                  res.sendStatus(500);
-                } else {
-                  res.status(200).send({ accessToken });
-                }
+    const { id } = req.body;
+    jwt.sign(
+      {
+        //email: email,
+        id: id,
+      },
+      jwtSecret,
+      jwtAccessTime,
+      (error, accessToken) => {
+        if (error) {
+          res.sendStatus(500);
+        } else {
+          UserModel.updateOne(
+            { _id: id },
+            { accessToken: accessToken },
+            (err) => {
+              if (err) {
+                res.sendStatus(500);
+              } else {
+                res.status(200).send({ accessToken });
               }
-            );
-          }
+            }
+          );
         }
-      );
-    } else {
-      res.status(400).send("can not refresh now");
-    }
+      }
+    );
   }
 );
 
@@ -168,7 +164,7 @@ router.put(
  */
 router.get(
   "/user/me/accessToken",
-  passport.authenticate("jwt", { session: false }),
+  //passport.authenticate("jwt", { session: false }),
   (req, res) => {
     res.sendStatus(200);
   }
