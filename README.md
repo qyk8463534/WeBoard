@@ -7,3 +7,4 @@ This program is a **drag and drop** trello like web application.
 ## Usage
 run ```npm install``` at both frontend and backend folder
 run ```sh start.sh``` at root
+The server is at ```http://localhost:9900/```
